@@ -240,11 +240,11 @@ Ini adalah skill integrasi komunitas yang diterbitkan oleh FUSIONIFY-ID. Reposit
 ## Status verifikasi
 
 - Validator repository, referensi, sinkronisasi plugin dan paket ZIP reproducible berhasil dijalankan.
-- **33 tes Python dan 15 tes Node.js lulus**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
+- **56 tes kode lulus: 33 Python, 15 Node.js, dan 8 PHP**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
 - **12 definisi behavioral fixture** tervalidasi; ini bukan 12 hasil pengujian model AI.
 - Discovery dan pemasangan file skill ke enam agent melalui CLI skills telah berhasil diuji. Penggunaan di dalam keenam aplikasi belum semuanya diuji.
-- Marketplace dan manifest plugin lolos validator resmi Claude Code; marketplace lokal Codex berhasil didaftarkan dan plugin 0.2.0 berhasil dipasang melalui CLI resmi.
-- Tes PHP dan hasil CI dilaporkan melalui GitHub Actions; keberadaan workflow tidak berarti run-nya sudah berhasil.
+- Marketplace dan manifest plugin lolos validator resmi Claude Code. Marketplace lokal Codex dan Claude Code berhasil didaftarkan, lalu plugin 0.2.0 berhasil dipasang melalui kedua CLI resmi.
+- [Run CI yang telah selesai](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/38193516707) lulus, termasuk PHP, validasi, dan ZIP artifacts. Status run berikutnya perlu diperiksa tersendiri.
 - Pembayaran live dan webhook provider belum berhasil diverifikasi; percobaan API sebelumnya diblokir Cloudflare Error 1010.
 - Pemetaan ID webhook ShopeePay/Interactive, envelope status GoPay, serta bill InstaQRIS tetap membutuhkan konfirmasi; AI tidak boleh menebaknya.
 
