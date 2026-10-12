@@ -1,0 +1,103 @@
+{
+  "name": "autogopay-payment-gateway",
+  "displayName": "AutoGoPay Payment Gateway",
+  "description": "Install AutoGoPay integration skills into your project and copy ready-to-use AI coding prompts.",
+  "version": "0.3.0",
+  "publisher": "fusionify-id",
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "autogopay",
+    "qris",
+    "agent-skills",
+    "payment"
+  ],
+  "main": "./src/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FUSIONIFY-ID/autogopay-payment-gateway.git"
+  },
+  "homepage": "https://github.com/FUSIONIFY-ID/autogopay-payment-gateway",
+  "bugs": {
+    "url": "https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/issues"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "autogopay.installSkill",
+        "title": "AutoGoPay: Pasang Skill ke Proyek"
+      },
+      {
+        "command": "autogopay.copyPrompt",
+        "title": "AutoGoPay: Salin Prompt Integrasi AI"
+      },
+      {
+        "command": "autogopay.openGuide",
+        "title": "AutoGoPay: Buka Panduan Pemasangan"
+      },
+      {
+        "command": "autogopay.openDocs",
+        "title": "AutoGoPay: Buka Dokumentasi API"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "autogopayGettingStarted",
+          "name": "AutoGoPay"
+        }
+      ]
+    },
+    "walkthroughs": [
+      {
+        "id": "autogopaySetup",
+        "title": "Mulai dengan AutoGoPay",
+        "description": "Pasang panduan integrasi untuk AI coding agent tanpa memasukkan API key ke extension.",
+        "steps": [
+          {
+            "id": "install",
+            "title": "Pasang skill ke proyek",
+            "description": "[Pilih AI target](command:autogopay.installSkill)",
+            "media": {
+              "markdown": "walkthrough.md"
+            },
+            "completionEvents": [
+              "onCommand:autogopay.installSkill"
+            ]
+          },
+          {
+            "id": "prompt",
+            "title": "Minta AI membuat integrasi",
+            "description": "[Salin prompt](command:autogopay.copyPrompt)",
+            "media": {
+              "markdown": "walkthrough.md"
+            },
+            "completionEvents": [
+              "onCommand:autogopay.copyPrompt"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "icon": "icon.png"
+}

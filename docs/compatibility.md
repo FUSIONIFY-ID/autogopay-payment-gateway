@@ -50,7 +50,7 @@ claude plugin validate ./plugins/autogopay-payment-gateway
 | ChatGPT desktop yang mendukung repo marketplace | Ikuti marketplace/plugin UI yang tersedia; paket tidak otomatis muncul di semua akun |
 | AI chat lainnya | Berikan SKILL.md dan referensi sebagai konteks; bukan instalasi editor otomatis |
 
-Repository marketplace tidak berarti plugin telah diterima di direktori publik resmi OpenAI, Anthropic, atau VS Code. Tidak ada VSIX/extension khusus, MCP server, hooks yang berjalan otomatis, atau kredensial live di paket ini.
+Repository marketplace tidak berarti plugin telah diterima di direktori publik resmi OpenAI, Anthropic, atau VS Code. VSIX installer terpisah tersedia untuk pemasangan manual melalui artifact CI; belum diterbitkan ke Visual Studio Marketplace. Paket skill/plugin tidak menyertakan MCP server, hooks yang berjalan otomatis, atau kredensial live. Lihat [panduan extension](vscode-extension.md).
 
 ## Sumber format
 

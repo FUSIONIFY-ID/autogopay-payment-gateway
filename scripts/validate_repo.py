@@ -33,7 +33,7 @@ def validate():
         if len(ref.read_text().splitlines())>100 and '## Contents' not in ref.read_text(): errors.append('Long reference needs contents: '+ref.name)
     for p in ROOT.rglob('*'):
         if not p.is_file() or any(x in p.parts for x in ('.git','dist','__pycache__','node_modules')): continue
-        if p.suffix in ('.pyc','.sqlite3','.db','.zip'): continue
+        if p.suffix in ('.pyc','.sqlite3','.db','.zip','.vsix','.png'): continue
         if p.name.startswith('.env') and p.name!='.env.example': errors.append('Populated env file: '+str(p.relative_to(ROOT)))
         try: value=p.read_text()
         except UnicodeDecodeError: continue
@@ -63,6 +63,19 @@ def validate():
             if manifest['name']!=NAME or manifest['version']!=VERSION: errors.append('Plugin version/name mismatch: '+sub)
         except (ValueError,KeyError,FileNotFoundError): errors.append('Invalid manifest: '+sub)
     if files(SKILL)!=files(ROOT/'plugins'/NAME/'skills'/NAME): errors.append('Plugin distribution is out of sync')
+    extension=ROOT/'vscode-extension'
+    if extension.exists():
+        try:
+            manifest=json.loads((extension/'package.json').read_text())
+            if manifest['version']!=VERSION: errors.append('Extension version mismatch')
+            if not (extension/manifest['main']).is_file(): errors.append('Extension entry point missing')
+            if manifest.get('capabilities',{}).get('untrustedWorkspaces',{}).get('supported') is not False: errors.append('Extension must require workspace trust')
+            bundle=extension/'skill-bundle'
+            if bundle.exists():
+                bundle_files=files(bundle)
+                bundle_files.pop('bundle-manifest.json',None)
+                if bundle_files!=files(SKILL): errors.append('VS Code skill bundle is out of sync')
+        except (ValueError,KeyError,FileNotFoundError): errors.append('Invalid extension manifest')
     return errors
 
 if __name__=='__main__':

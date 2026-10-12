@@ -8,3 +8,6 @@ dist/
 *.sqlite3
 *.sqlite3-*
 *.db
+
+*.vsix
+vscode-extension/skill-bundle/
