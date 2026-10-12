@@ -1,0 +1,1 @@
+{"pending_orders":[{"id":"order-a","amount":10000,"bill_number":"bill-a"},{"id":"order-b","amount":10000,"bill_number":"bill-b"}],"statement":{"id":"receipt-a","bill":"unmapped-bill","amount":10000,"type":"IN","rc":"00"},"expected":"unresolved-no-credit"}

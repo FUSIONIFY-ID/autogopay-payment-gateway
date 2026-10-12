@@ -32,9 +32,14 @@ If this is a chat-only environment without project files or editing tools, suppl
 | Interactive checkout and polling | [Interactive](references/interactive.md) |
 | InstaQRIS checkout and reconciliation | [InstaQRIS](references/instaqris.md) |
 | OVO QRIS payment or outgoing transfers | [OVO](references/ovo.md) |
+| Runnable mock checkout, SQLite receipts, Node.js and PHP helpers | [Examples](references/examples.md) |
 | Install/share this skill with other agents | [Distribution](references/distribution.md) |
 
 Treat the Markdown instructions and references as the portable core. Do not depend on OpenAI-specific metadata or tools to perform integration. Use the available file, shell, HTTP, and test tools of the host agent. Do not promise automatic support in every AI product; an agent must support skills or be given these instructions and references explicitly.
+
+## Scope boundaries
+
+Do not activate for unrelated frontend styling, another payment provider without an AutoGoPay task, or general coding that does not involve AutoGoPay. Refuse to invent provider schemas or claim live success from mocks.
 
 ## Establish scope
 

@@ -1,0 +1,14 @@
+{
+  "name": "fusionify-autogopay",
+  "owner": {
+    "name": "FUSIONIFY-ID"
+  },
+  "description": "AutoGoPay integration skills maintained by FUSIONIFY-ID",
+  "plugins": [
+    {
+      "name": "autogopay-payment-gateway",
+      "source": "./plugins/autogopay-payment-gateway",
+      "description": "AutoGoPay QRIS integration, verified webhooks, payment reconciliation and runnable mock examples."
+    }
+  ]
+}

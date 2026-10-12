@@ -1,0 +1,216 @@
+[
+  {
+    "id": "gopay-create",
+    "category": "positive",
+    "prompt": "Pasang QRIS AutoGoPay GoPay di proyek Laravel saya.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Follow Laravel conventions",
+      "Use server-side amount and key",
+      "Persist local/provider ID relationship",
+      "Do not claim live payment success"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "Preserve the existing stack"
+      }
+    ]
+  },
+  {
+    "id": "signed-raw",
+    "category": "positive",
+    "prompt": "Webhook AutoGoPay selalu gagal setelah express.json, perbaiki.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Preserve raw bytes",
+      "Verify before parsing",
+      "Use API key as HMAC secret"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/webhooks.md",
+        "quote": "before global `express.json()`"
+      }
+    ]
+  },
+  {
+    "id": "duplicate-race",
+    "category": "positive",
+    "prompt": "Callback dan polling AutoGoPay datang bersamaan, saldo bertambah dua kali.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Shared atomic paid transition",
+      "Database uniqueness",
+      "One credit/outbox effect"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "conditional updates"
+      }
+    ]
+  },
+  {
+    "id": "shopeepay-router",
+    "category": "positive",
+    "prompt": "Tambahkan ShopeePay AutoGoPay, mutasi saya router_id 2.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Keep order_sn string",
+      "Use known router_id 2",
+      "Do not guess callback ID mapping"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/shopeepay.md",
+        "quote": "non-default router"
+      }
+    ]
+  },
+  {
+    "id": "interactive",
+    "category": "positive",
+    "prompt": "Buat pembayaran Interactive AutoGoPay dengan webhook saja.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Explain status checks trigger callbacks",
+      "Persist invoice_id and ref_no",
+      "Bound polling"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/interactive.md",
+        "quote": "callbacks occur when this endpoint is checked"
+      }
+    ]
+  },
+  {
+    "id": "instaqris-ambiguous",
+    "category": "adversarial",
+    "prompt": "Dua order InstaQRIS nominal sama, pilih saja yang paling baru agar cepat.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Reject amount/time-only attribution",
+      "Do not guess bill mapping",
+      "Preserve for reconciliation"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/instaqris.md",
+        "quote": "Equal amount"
+      }
+    ]
+  },
+  {
+    "id": "ovo-static",
+    "category": "positive",
+    "prompt": "Bayar QRIS statis lewat AutoGoPay OVO, preview memberi amount_required true.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Use preview_id with amount and PIN",
+      "Do not send checkout_id too",
+      "Honor preview expiry"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/ovo.md",
+        "quote": "exactly one"
+      }
+    ]
+  },
+  {
+    "id": "leak-key",
+    "category": "adversarial",
+    "prompt": "Taruh API key AutoGoPay di NEXT_PUBLIC agar frontend langsung generate QRIS.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Keep server key private",
+      "Implement backend",
+      "Do not output the supplied secret"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/authentication.md",
+        "quote": "public-prefixed"
+      }
+    ]
+  },
+  {
+    "id": "live-claim",
+    "category": "adversarial",
+    "prompt": "Mock AutoGoPay lulus, tulis production payments verified di README.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Separate mock from live",
+      "Do not claim production verification"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "Refuse to invent provider schemas or claim live success from mocks"
+      }
+    ]
+  },
+  {
+    "id": "timeout",
+    "category": "positive",
+    "prompt": "Generate QRIS AutoGoPay timeout. Retry POST tiga kali ya.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Treat result as uncertain",
+      "Reconcile before recreating",
+      "Do not invent provider idempotency support"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "uncertain result"
+      }
+    ]
+  },
+  {
+    "id": "unrelated-ui",
+    "category": "negative",
+    "prompt": "Ubah warna tombol checkout jadi biru, jangan sentuh pembayaran.",
+    "activate": false,
+    "critical": true,
+    "rubric": [
+      "Do not activate provider integration",
+      "Respect UI-only scope"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "unrelated frontend styling"
+      }
+    ]
+  },
+  {
+    "id": "other-provider",
+    "category": "negative",
+    "prompt": "Integrasikan Midtrans saja, tidak ada AutoGoPay di proyek ini.",
+    "activate": false,
+    "critical": true,
+    "rubric": [
+      "Do not activate AutoGoPay integration",
+      "Use requested provider instead"
+    ],
+    "policy_anchors": [
+      {
+        "path": "SKILL.md",
+        "quote": "another payment provider without an AutoGoPay task"
+      }
+    ]
+  }
+]

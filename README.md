@@ -92,6 +92,56 @@ Kiro dengan custom agent mungkin memerlukan konfigurasi resource skill; ikuti do
 
 Referensi kompatibilitas: [CLI skills](https://github.com/vercel-labs/skills#supported-agents), [Agent Skills Kiro](https://kiro.dev/docs/skills/), dan [konsep Skills ChatGPT/Codex](https://developers.openai.com/plugins/concepts/skills).
 
+## Plugin marketplace
+
+Untuk Codex yang mendukung plugins:
+
+```bash
+codex plugin marketplace add FUSIONIFY-ID/autogopay-payment-gateway
+codex plugin add autogopay-payment-gateway@fusionify-autogopay
+```
+
+Untuk Claude Code:
+
+```bash
+claude plugin marketplace add FUSIONIFY-ID/autogopay-payment-gateway
+claude plugin install autogopay-payment-gateway@fusionify-autogopay
+```
+
+Pilih salah satu jalur, skill atau plugin, pada host yang sama untuk menghindari discovery ganda. Marketplace ini adalah katalog repository FUSIONIFY-ID, bukan listing resmi di marketplace OpenAI/Anthropic atau extension VS Code. Detail versi, editor, dan jalur instalasi ada di [panduan kompatibilitas](docs/compatibility.md).
+
+## Coba demo lokal
+
+Jalankan server mock:
+
+```bash
+python skills/autogopay-payment-gateway/assets/python-demo/server.py --db demo.sqlite3
+```
+
+Di terminal kedua:
+
+```bash
+python skills/autogopay-payment-gateway/assets/python-demo/simulate.py
+```
+
+Dua callback ditandatangani dan dikirim ke localhost. Callback kedua terdeteksi duplikat, sehingga pesanan hanya menghasilkan satu efek fulfillment. Demo tidak menggunakan API key asli atau mengirim uang. Lihat [contoh runnable](docs/examples.md) untuk cara mengadaptasinya ke proyek.
+
+## Validasi, test, dan paket
+
+```bash
+python scripts/validate_repo.py
+python scripts/sync_skill.py --check
+python scripts/run_evals.py
+python -m unittest discover -s tests -v
+node --test tests/node.test.mjs
+php tests/php_test.php
+python scripts/package_skill.py
+```
+
+Python 3.12+, Node.js 22+, dan PHP CLI diperlukan untuk seluruh pemeriksaan. Paket skill/plugin ZIP dan checksum dibuat di dist/; GitHub Actions menghasilkan artifact setelah semua pemeriksaan lulus. [Panduan pengujian](docs/testing.md) membedakan tes struktur, kode mock, evaluasi AI, dan pembayaran live.
+
+Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.2.0**.
+
 ## Pilihan provider
 
 | Provider | Kegunaan | Konfirmasi pembayaran |
@@ -189,11 +239,13 @@ Ini adalah skill integrasi komunitas yang diterbitkan oleh FUSIONIFY-ID. Reposit
 
 ## Status verifikasi
 
-- Struktur skill dan tautan referensi lolos pemeriksaan.
-- Sembilan pengujian lokal verifikasi signature webhook berhasil.
-- Repository publik berhasil diambil dan skill ditemukan oleh CLI.
-- Pemasangan file skill beserta referensinya ke enam target (Cursor, Claude Code, Codex, Qoder, OpenCode, Kiro CLI) berhasil dalam proyek percobaan. Penggunaan di dalam keenam aplikasi dan pemasangan global pada komputer pengguna belum diuji.
-- Pembayaran nyata dan pengiriman callback belum berhasil diverifikasi; tes API sebelumnya terhalang Cloudflare Error 1010.
-- Pemetaan ID webhook ShopeePay/Interactive dan hubungan `bill_number` dengan `bill` pada InstaQRIS masih perlu dikonfirmasi. Skill menginstruksikan AI agar tidak menebaknya.
+- Validator repository, referensi, sinkronisasi plugin dan paket ZIP reproducible berhasil dijalankan.
+- **33 tes Python dan 15 tes Node.js lulus**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
+- **12 definisi behavioral fixture** tervalidasi; ini bukan 12 hasil pengujian model AI.
+- Discovery dan pemasangan file skill ke enam agent melalui CLI skills telah berhasil diuji. Penggunaan di dalam keenam aplikasi belum semuanya diuji.
+- Marketplace dan manifest plugin lolos validator resmi Claude Code; marketplace lokal Codex berhasil didaftarkan dan plugin 0.2.0 berhasil dipasang melalui CLI resmi.
+- Tes PHP dan hasil CI dilaporkan melalui GitHub Actions; keberadaan workflow tidak berarti run-nya sudah berhasil.
+- Pembayaran live dan webhook provider belum berhasil diverifikasi; percobaan API sebelumnya diblokir Cloudflare Error 1010.
+- Pemetaan ID webhook ShopeePay/Interactive, envelope status GoPay, serta bill InstaQRIS tetap membutuhkan konfirmasi; AI tidak boleh menebaknya.
 
 Dokumentasi ditinjau dan dilengkapi dari halaman yang diberikan pengguna pada **12 Oktober 2026**. Untuk kontrak terbaru, periksa [dokumentasi AutoGoPay](https://autogopay.site/docs).

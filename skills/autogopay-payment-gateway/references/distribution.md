@@ -32,3 +32,8 @@ For an AI chat product without skill installation, provide SKILL.md and the refe
 ## Check installation separately from payment setup
 
 Verify that the target agent discovers the installed skill and can read its provider references. Next verify project integration, server environment configuration, provider readiness, dashboard callback reachability, and an authorized real payment when a suitable environment exists. An installation count, skill validation, or a successful mock is not proof of live gateway integration.
+
+
+## Repository marketplace packages
+
+The published repository also includes Codex and Claude Code marketplace catalogs plus a synchronized plugin copy. For supported Codex versions use `codex plugin marketplace add FUSIONIFY-ID/autogopay-payment-gateway`, then `codex plugin add autogopay-payment-gateway@fusionify-autogopay`. For Claude Code use `claude plugin marketplace add FUSIONIFY-ID/autogopay-payment-gateway`, then `claude plugin install autogopay-payment-gateway@fusionify-autogopay`. Check the host's available command/version before installation. Choose either skill or plugin on the same host to avoid duplicate discovery. Repository marketplace support is not official public directory approval or a VS Code extension.

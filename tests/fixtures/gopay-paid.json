@@ -1,0 +1,10 @@
+{
+  "event": "transaction.received",
+  "transaction": {
+    "transaction_id": "tx-1",
+    "order_id": "provider-order-1",
+    "amount": 10000,
+    "status": "PAID",
+    "payment_method": "QRIS"
+  }
+}

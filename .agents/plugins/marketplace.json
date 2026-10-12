@@ -1,0 +1,20 @@
+{
+  "name": "fusionify-autogopay",
+  "interface": {
+    "displayName": "Fusionify AutoGoPay"
+  },
+  "plugins": [
+    {
+      "name": "autogopay-payment-gateway",
+      "source": {
+        "source": "local",
+        "path": "./plugins/autogopay-payment-gateway"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

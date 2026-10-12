@@ -1,0 +1,14 @@
+interface:
+  display_name: AutoGoPay Payment Gateway
+  short_description: Integrate AutoGoPay QRIS APIs and secure webhooks
+  default_prompt: Use $autogopay-payment-gateway to integrate AutoGoPay QRIS payments
+    and verified webhooks into my application.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
