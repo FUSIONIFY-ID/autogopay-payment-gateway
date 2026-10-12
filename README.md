@@ -44,6 +44,54 @@ AI akan menyesuaikan implementasi dengan proyekmu. Setelah itu:
 4. Untuk provider yang mendukung webhook, isi callback URL HTTPS sesuai route yang dibuat di aplikasimu.
 5. Jalankan pengujian lokal, lalu uji pembayaran nyata yang memang kamu izinkan sebelum mengaktifkan pengiriman produk atau kredit saldo.
 
+## Pasang otomatis ke beberapa AI sekaligus
+
+Untuk memasang ke **Cursor, Claude Code, Codex, Qoder, OpenCode, dan Kiro CLI** di komputer yang sama, jalankan:
+
+```bash
+npx skills add FUSIONIFY-ID/autogopay-payment-gateway --skill autogopay-payment-gateway --agent cursor claude-code codex qoder opencode kiro-cli --global --yes --copy
+```
+
+- `--global`: skill tersedia di direktori pengguna untuk berbagai proyek.
+- `--yes`: pemasangan berjalan tanpa pertanyaan pemilihan agent.
+- `--copy`: menyalin file agar tidak bergantung pada symbolic link.
+- Perintah ini memasang **skill**, bukan aplikasi AI, akun, model, atau payment gateway yang sudah aktif.
+
+Untuk pemasangan hanya pada proyek saat ini, buka terminal di folder proyek dan hapus `--global`. Varian proyek ini sudah berhasil diuji untuk keenam target di lingkungan percobaan.
+
+| Produk | Target / cara pemasangan |
+| --- | --- |
+| Cursor | `--agent cursor` |
+| Claude Code | `--agent claude-code` |
+| OpenAI Codex | `--agent codex` |
+| Qoder | `--agent qoder` |
+| OpenCode | `--agent opencode` |
+| Kiro CLI | `--agent kiro-cli` |
+| Kiro IDE yang mendukung Agent Skills | Membaca folder `.kiro/skills/` atau `~/.kiro/skills/`; CLI memasang ke lokasi tersebut |
+| ChatGPT / Claude versi chat | Tidak menjadi target instalasi lokal perintah ini; gunakan fitur skill/import yang tersedia pada akun, atau berikan SKILL.md beserta referensinya sebagai konteks |
+
+Untuk memilih satu target, ganti daftar setelah `--agent` dengan nama target yang diinginkan. Misalnya:
+
+```bash
+npx skills add FUSIONIFY-ID/autogopay-payment-gateway --skill autogopay-payment-gateway --agent cursor --global --yes --copy
+```
+
+Setelah pemasangan, mulai sesi agent baru atau buka ulang proyek bila skill belum terdeteksi. Verifikasi daftar global:
+
+```bash
+npx skills list --global
+```
+
+Perbarui skill ketika ada versi baru:
+
+```bash
+npx skills update autogopay-payment-gateway --global --yes
+```
+
+Kiro dengan custom agent mungkin memerlukan konfigurasi resource skill; ikuti dokumentasi Kiro untuk versi yang digunakan. Aplikasi chat dan coding agent tidak otomatis saling berbagi instalasi. Menyebut "OpenAI" pada installer berarti menargetkan produk Codex, bukan mengubah semua model atau akun OpenAI.
+
+Referensi kompatibilitas: [CLI skills](https://github.com/vercel-labs/skills#supported-agents), [Agent Skills Kiro](https://kiro.dev/docs/skills/), dan [konsep Skills ChatGPT/Codex](https://developers.openai.com/plugins/concepts/skills).
+
 ## Pilihan provider
 
 | Provider | Kegunaan | Konfirmasi pembayaran |
@@ -144,7 +192,7 @@ Ini adalah skill integrasi komunitas yang diterbitkan oleh FUSIONIFY-ID. Reposit
 - Struktur skill dan tautan referensi lolos pemeriksaan.
 - Sembilan pengujian lokal verifikasi signature webhook berhasil.
 - Repository publik berhasil diambil dan skill ditemukan oleh CLI.
-- Instalasi penuh ke berbagai AI coding agent belum diuji.
+- Pemasangan file skill beserta referensinya ke enam target (Cursor, Claude Code, Codex, Qoder, OpenCode, Kiro CLI) berhasil dalam proyek percobaan. Penggunaan di dalam keenam aplikasi dan pemasangan global pada komputer pengguna belum diuji.
 - Pembayaran nyata dan pengiriman callback belum berhasil diverifikasi; tes API sebelumnya terhalang Cloudflare Error 1010.
 - Pemetaan ID webhook ShopeePay/Interactive dan hubungan `bill_number` dengan `bill` pada InstaQRIS masih perlu dikonfirmasi. Skill menginstruksikan AI agar tidak menebaknya.
 
