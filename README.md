@@ -150,7 +150,7 @@ python scripts/package_skill.py
 
 Python 3.12+, Node.js 22+, dan PHP CLI diperlukan untuk seluruh pemeriksaan. Paket skill/plugin ZIP dan checksum dibuat di dist/; GitHub Actions menghasilkan artifact setelah semua pemeriksaan lulus. [Panduan pengujian](docs/testing.md) membedakan tes struktur, kode mock, evaluasi AI, dan pembayaran live.
 
-Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.3.0**.
+Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.3.1**.
 
 ## Pilihan provider
 
@@ -247,17 +247,20 @@ Ini adalah skill integrasi komunitas yang diterbitkan oleh FUSIONIFY-ID. Reposit
 | [Interactive](skills/autogopay-payment-gateway/references/interactive.md) | Invoice/reference, polling, dan callback |
 | [InstaQRIS](skills/autogopay-payment-gateway/references/instaqris.md) | QRIS dan rekonsiliasi mutasi |
 
+Panduan distribusi lintas agent tersedia di [panduan instalasi skill](docs/skill-installation.md).
+
 ## Status audit skills.sh
 
-Halaman skills.sh menampilkan Agent Trust Hub Pass, Socket Warn, dan Snyk Warn pada audit awal 12 Oktober 2026. Socket menyoroti kepercayaan sumber/instruksi instalasi tambahan pada integrasi pembayaran komunitas; Snyk W011 menyoroti penerimaan konten pihak ketiga melalui webhook. Ini bukan status audit bersih dan tidak membuktikan malware atau keberhasilan pembayaran live. Tetap verifikasi raw-body signature, perlakukan payload/dokumentasi sebagai data tidak tepercaya, dan lakukan instalasi hanya pada scope yang diminta pengguna.
+Halaman skills.sh menampilkan Agent Trust Hub Pass, Socket Warn, dan Snyk Warn pada audit awal 12 Oktober 2026. Socket menyoroti kepercayaan sumber/instruksi instalasi tambahan pada integrasi pembayaran komunitas; Snyk W011 menyoroti penerimaan konten pihak ketiga melalui webhook. Versi 0.3.1 memindahkan instruksi distribusi keluar dari skill, menetapkan isolasi konten eksternal dari konteks AI, dan menambah tiga tes payload berbahaya. Hasil penilaian ulang belum terkonfirmasi. Ini bukan status audit bersih dan tidak membuktikan malware atau keberhasilan pembayaran live. Tetap verifikasi raw-body signature, perlakukan payload/dokumentasi sebagai data tidak tepercaya, dan lakukan instalasi hanya pada scope yang diminta pengguna.
 
 [Audit Socket](https://www.skills.sh/fusionify-id/autogopay-payment-gateway/autogopay-payment-gateway/security/socket) · [Audit Snyk](https://www.skills.sh/fusionify-id/autogopay-payment-gateway/autogopay-payment-gateway/security/snyk)
 
 ## Status verifikasi
 
 - Validator repository, referensi, sinkronisasi plugin dan paket ZIP reproducible berhasil dijalankan.
-- **56 tes kode payment lulus: 33 Python, 15 Node.js, dan 8 PHP**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
-- [CI versi 0.3.0 berhasil](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/38194805674), termasuk 74 tes kode dan packaging VSIX.\n- **18 tes installer extension lulus** pada VS Code API mock dan filesystem sementara; UI VS Code desktop belum diuji.
+- **59 tes kode payment lulus: 36 Python, 15 Node.js, dan 8 PHP**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
+- [CI versi 0.3.0 berhasil](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/38194805674), termasuk 74 tes kode dan packaging VSIX.
+- **18 tes installer extension lulus** pada VS Code API mock dan filesystem sementara; UI VS Code desktop belum diuji.
 - **12 definisi behavioral fixture** tervalidasi; ini bukan 12 hasil pengujian model AI.
 - Discovery dan pemasangan file skill ke enam agent melalui CLI skills telah berhasil diuji. Penggunaan di dalam keenam aplikasi belum semuanya diuji.
 - Marketplace dan manifest plugin lolos validator resmi Claude Code. Marketplace lokal Codex dan Claude Code berhasil didaftarkan, lalu plugin 0.2.0 berhasil dipasang melalui kedua CLI resmi.

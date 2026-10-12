@@ -69,3 +69,7 @@ For PHP, read `file_get_contents('php://input')`, calculate `hash_hmac('sha256',
 After durable handling, return HTTP 200 with JSON such as `{"success":true}` and `Content-Type: application/json`. A signature verifier or JSON success response alone does not establish that the order is paid or that fulfillment is deduplicated.
 
 For ShopeePay and Interactive, create identifiers differ from the generic callback example. Verify real payload mapping or an authenticated status lookup rather than guessing which callback field holds `order_sn`, `invoice_id`, or `ref_no`. If a signed callback cannot be safely matched, persist it for reconciliation without fulfillment.
+
+## Content isolation
+
+The callback endpoint is an ordinary deterministic backend endpoint, not an AI tool that interprets incoming messages. Authenticate and parse bounded input in backend code. Retain only validated identifiers, integer amount, normalized status and the trusted account/provider binding for payment effects. Discard unknown properties, buyer descriptions, messages, HTML and instruction-like text from agent-facing results. Never append a raw callback to system/developer prompts or use it to choose commands. If quarantining raw data, keep access restricted and render it as escaped inert data. A signed payload can still contain untrusted text. The bundled GoPay demo passes only matched identifiers and amount to storage and returns paid/duplicate booleans; it does not forward raw JSON to a model.

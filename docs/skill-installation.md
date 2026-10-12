@@ -4,13 +4,13 @@ Verified 2026-10-12: https://skills.sh/docs/faq and https://skills.sh/docs
 
 Host this directory in a GitHub repository, for example at `skills/autogopay-payment-gateway/`, preserving `SKILL.md`, `agents/`, and `references/`. Put a usage README at repository root if desired. Do not publish credentials, production payloads, or personal customer data. Describe this as a community integration skill unless the provider has endorsed it.
 
-After the repository exists, replace OWNER/REPO in the following command:
+Install the public Fusionify repository with:
 
 ```sh
-npx skills add OWNER/REPO --skill autogopay-payment-gateway
+npx skills add FUSIONIFY-ID/autogopay-payment-gateway --skill autogopay-payment-gateway
 ```
 
-This is a template, not a working published source. The skills.sh FAQ says leaderboard discovery uses installation telemetry from the skills CLI. Creating a local skill alone does not publish it to GitHub or guarantee a listing. Verify the public repository and actual installation before announcing availability.
+The skills.sh FAQ says leaderboard discovery uses installation telemetry from the skills CLI. Creating a local skill alone does not publish it to GitHub or guarantee a listing. Verify the public repository and actual installation before announcing availability.
 
 Example user prompt:
 

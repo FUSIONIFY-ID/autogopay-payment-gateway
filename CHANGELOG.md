@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+- Move distribution instructions outside the installed payment skill.
+- Define explicit trust boundaries for external documentation and callback content.
+- Test signed instruction-like payloads, amount overrides and unknown provider claims.
+
+
 ## 0.3.0 - 2026-10-12
 
 - Add offline VS Code project skill installer, Command Palette actions, Explorer panel and walkthrough.

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+- Move distribution instructions outside the installed payment skill.
+- Define explicit trust boundaries for external documentation and callback content.
+- Test signed instruction-like payloads, amount overrides and unknown provider claims.
+
+
 ## 0.3.0
 
 - Initial offline project skill installer for six AI coding targets.
