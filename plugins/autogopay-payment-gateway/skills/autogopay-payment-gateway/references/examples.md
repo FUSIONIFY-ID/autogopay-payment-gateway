@@ -7,6 +7,8 @@ Use bundled assets as small tested starting points, adapting them to the existin
 - `assets/python-demo/webhook.py`: raw-body HMAC verification and strict paid-payload validation.
 - `assets/python-demo/simulate.py`: signs and delivers a mock receipt twice to localhost; no real gateway call.
 - `assets/node/autogopay.mjs`: server-side GoPay request helper with injected fetch for tests, no retries, plus signature verification and provider-specific paid indicators.
+- `assets/node/bca.mjs`: validated BCA creation and bounded paginated statements, without automatic payment attribution.
+- `assets/node/polling.mjs`: pure adaptive schedule and Interactive status classification, with no network side effects.
 - `assets/php/verify.php`: signature helper only; integrate with the project's durable payment store and route validation.
 
 Copy all Python demo files together, then run `python server.py --db demo.sqlite3` and in another terminal run `python simulate.py`. The first callback should report duplicate=false, the second duplicate=true. Orders have a trusted seeded amount of 10000 IDR; the demo ignores customer-supplied amount. Configure DEMO_APP_TOKEN and DEMO_WEBHOOK_KEY for local fixtures; these are mock credentials, not AutoGoPay API keys. The demo always binds to 127.0.0.1, never invokes AutoGoPay, and does not expose outgoing transfers.

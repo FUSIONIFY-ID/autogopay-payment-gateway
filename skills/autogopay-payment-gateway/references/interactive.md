@@ -1,12 +1,12 @@
 # QRIS Interactive integration
 
-Source: overview, merchant status, QRIS creation, and payment status documentation supplied by the user on 2026-10-12 (Asia/Jakarta). This describes documentation and implementation recommendations; no successful live API test is claimed.
+Source: overview, merchant status, QRIS creation, and payment status documentation supplied by the user on 2026-10-29 (Asia/Jakarta). This describes documentation and implementation recommendations; no successful live API test is claimed.
 
 ## Merchant readiness
 
 Connect the Interactive merchant through its dashboard page first. Use the canonical configured base `https://v1-gateway.autogopay.site` and server-side Bearer authentication.
 
-GET `/interactive/status` returns `success` and `data.connected`, `mid`, `appid` in the connected example. Require boolean `connected === true` before normal creation. Preserve `mid` and `appid` as strings; do not invent a `token_valid` field or require these as gateway request headers. The disconnected response schema is not supplied.
+GET `/interactive/status` returns `success` and `data.connected`, `mid`, `appid` in the connected example. Require boolean `connected === true` before normal creation. Preserve `mid` and `appid` as strings; do not invent a `token_valid` field or require these as gateway request headers. The documented disconnected response is `{"success":true,"data":{"connected":false}}`; do not confuse API success with merchant readiness.
 
 ## Create and persist
 
@@ -31,7 +31,9 @@ The paid example returns `success`, `message`, and these `data` fields:
 | `paid_at` | Preserve original timestamp; timezone not documented here |
 | `issuer_name`, `customer_name` | Payment metadata; minimize sensitive logging |
 
-Top-level `success` only describes the API call. Verify paid `data.status`, account, both IDs, and amount before a paid transition. Do not require ShopeePay-only `paid` or `order_status` fields. Pending is mentioned but its JSON example is not included; do not invent the pending envelope or additional terminal status values.
+Top-level `success` only describes the API call. Verify paid `data.status`, account, both IDs, and amount before a paid transition. Do not require ShopeePay-only `paid` or `order_status` fields. The supplied pending example is `{"success":false,"message":"Transaction pending","data":{"invoice_id":"42844055","ref_no":"INTR6a8fca6ec0bcd","status":"pending"}}`. Recognize only this matched pending state as non-paid; other failures remain errors or unresolved. Do not invent additional terminal status values.
+
+Use `classifyInteractive` from `assets/node/polling.mjs` on the complete HTTP-success JSON envelope. The generic GoPay/BCA `AutoGoPayClient.request()` rejects `success:false` and returns only `data`; do not reuse it unchanged for Interactive status. A dedicated adapter must preserve the full envelope, apply HTTP/JSON error checks, and then distinguish the documented matched pending state from actual rejection.
 
 ## Polling and webhook
 
@@ -43,9 +45,9 @@ Callback payment method is `QRIS_INTERACTIVE`; use the signature and durable rec
 
 A polling deadline means the worker stopped waiting. It is not proof that the provider cancelled the QR or that a late payment cannot occur. Reconcile late paid evidence and do not downgrade an already-paid order.
 
-## Documentation base URL mismatch
+## API and image URLs
 
-The Node.js polling sample calls `https://api.autogopay.site/interactive/qris/status`, while the main docs and cURL use `https://v1-gateway.autogopay.site`. Prefer the canonical configured base; do not switch API hosts automatically on an authentication or security error. Returned QR URLs remain valid response data and need not use the same host as API requests.
+The October 29 supplied sample and cURL use `https://v1-gateway.autogopay.site`; the older sample host mismatch is resolved. Do not switch authenticated API hosts on an error. Validate returned image URLs as HTTPS links on a reviewed provider-host allowlist; never attach credentials to them or fetch arbitrary response-controlled URLs from the backend.
 
 ## Verification checklist
 

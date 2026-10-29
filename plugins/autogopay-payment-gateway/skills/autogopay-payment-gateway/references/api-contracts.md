@@ -1,6 +1,15 @@
 # API contracts
 
-Verified from public AutoGoPay documentation on 2026-10-12 (Asia/Jakarta). Re-check before extending these contracts. Request base: `https://v1-gateway.autogopay.site`; authentication: `Authorization: Bearer <AUTOGOPAY_API_KEY>`. Send JSON for POST bodies.
+## Contents
+
+- [GoPay QRIS](#gopay-qris)
+- [ShopeePay](#shopeepay)
+- [Interactive](#interactive)
+- [InstaQRIS](#instaqris)
+- [OVO](#ovo)
+- [BCA Merchant](#bca-merchant)
+
+Updated against the user-supplied AutoGoPay API Markdown on 2026-10-29 (Asia/Jakarta); this is a contract review, not a live API verification. Re-check before extending these contracts. Request base: `https://v1-gateway.autogopay.site`; authentication: `Authorization: Bearer <AUTOGOPAY_API_KEY>`. Send JSON for POST bodies.
 
 ## GoPay QRIS
 
@@ -11,9 +20,9 @@ Verified from public AutoGoPay documentation on 2026-10-12 (Asia/Jakarta). Re-ch
 | POST `/qris/cancel` | JSON `transaction_id` | Cancel pending QRIS; cancellation is not a refund |
 | POST `/transactions` | No body documented; Bearer authentication | `success`, `data.transactions[]`: `id`, `time`, `amount`, `currency`, `payment_type`, `status`, `issuer` |
 
-Creation documents automatic status monitoring every 3 seconds for up to 15 minutes. Save both returned transaction and order identifiers. Send the returned checkout URL when a hosted payment page is appropriate.
+Creation documents automatic status monitoring every 3 seconds during the first 2 minutes, every 5 seconds until minute 5, then every 10 seconds until the 15-minute deadline. Save both returned transaction and order identifiers. Send the returned checkout URL when a hosted payment page is appropriate.
 
-Cross-check: user supplied all six GoPay documentation pages on 2026-10-12. Transaction history uses POST even though it reads data. Do not invent pagination, filters, or a request body. An API-level `success: true` does not mean all listed transactions are paid; inspect each status and correlate identifiers before reconciling an order.
+Cross-check: user supplied the consolidated GoPay documentation on 2026-10-29. Transaction history uses POST even though it reads data. Do not invent pagination, filters, or a request body. An API-level `success: true` does not mean all listed transactions are paid; inspect each status and correlate identifiers before reconciling an order.
 
 ### Hosted payment link
 
@@ -65,7 +74,7 @@ Connect the merchant in the dashboard. POST `/interactive/qris/create` accepts i
 
 POST `/interactive/qris/status` requires both `invoice_id` and `ref_no` strings. The paid example has `data.status=success`, amount, `tran_id`, `rrn`, and `paid_at`. GET `/interactive/status` exposes `data.connected`, `mid`, `appid`. Read [Interactive integration](interactive.md), also directly linked from SKILL.md, for the complete supplied workflow. Poll status server-side every 3–5 seconds for at most 15 minutes; checking status triggers the documented callback.
 
-Resolve two documentation discrepancies explicitly: the create page says 15 minutes but its sample timestamps span an hour; the status code sample uses `api.autogopay.site` while the canonical base and cURL use `v1-gateway.autogopay.site`. Use the canonical base, record returned expiry, and confirm expiry semantics before making customer-facing guarantees.
+The supplied October 29 examples use the canonical gateway host consistently. One discrepancy remains: the Interactive create page says 15 minutes but its sample timestamps span an hour. Use the canonical base, record returned expiry, and confirm expiry semantics before making customer-facing guarantees.
 
 Sources: https://autogopay.site/docs/interactive, https://autogopay.site/docs/interactive/generate-qris, https://autogopay.site/docs/interactive/check-status
 
@@ -95,3 +104,7 @@ Sources: https://autogopay.site/docs, https://autogopay.site/docs/instaqris, htt
 Read [OVO contracts](ovo.md) for documented schemas, the two QRIS confirmation branches, history pagination, bank fees, and transfer workflows supplied by the user. This file is also directly linked from SKILL.md. Money-moving endpoints require a six-digit string PIN; three incorrect attempts can lock the account.
 
 Source: https://autogopay.site/docs/ovo
+
+## BCA Merchant
+
+Connect the BCA account and select its outlet in the dashboard. POST `/bca/qris/create` accepts integer IDR `amount`, 1–10000000. Persist returned `transaction_id`, `amount`, `qr_string`, `qr_url`, `transaction_time`, `expiry_time`. The transaction ID does not occur in BCA statements. GET `/bca/transactions` takes optional `date` (YYYY-MM-DD, WIB, default today) and `page` (integer from 1); `data` has `date`, `page`, `transactions[]`. Each page contains at most 50 items. Items pass through from BCA with no stable field schema supplied. No BCA auto-poller, webhook, or per-QR status endpoint exists in this contract. Read [BCA Merchant](bca.md) before implementing reconciliation.

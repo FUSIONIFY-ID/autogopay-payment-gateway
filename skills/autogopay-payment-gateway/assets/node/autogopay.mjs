@@ -11,7 +11,7 @@ export function normalizePaid(provider, data) {
   if (provider === 'gopay') return data.transaction_status === 'settlement';
   if (provider === 'shopeepay') return data.status === 'success' && data.order_status === 1 && data.paid === true;
   if (provider === 'interactive') return data.status === 'success';
-  return false; // InstaQRIS needs verified statement matching; OVO is outgoing.
+  return false; // BCA/InstaQRIS need verified statement attribution; OVO is outgoing.
 }
 
 export class AutoGoPayClient {
@@ -23,6 +23,7 @@ export class AutoGoPayClient {
     this.timeoutMs = timeoutMs;
   }
   async request(path, method, body) {
+    if (typeof path !== 'string' || !/^\/[a-z][a-z0-9/?=&_.%+-]*$/i.test(path) || path.includes('..') || path.includes('//') || !['GET', 'POST'].includes(method)) throw new Error('Invalid gateway request path/method');
     const response = await this.fetchImpl(`https://v1-gateway.autogopay.site${path}`, {
       method, redirect: 'error', signal: AbortSignal.timeout(this.timeoutMs),
       headers: { Authorization: `Bearer ${this.key}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },

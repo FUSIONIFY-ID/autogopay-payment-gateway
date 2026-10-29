@@ -1,6 +1,6 @@
 # InstaQRIS integration and reconciliation
 
-Source: overview, generation, and statement documentation supplied by the user on 2026-10-12 (Asia/Jakarta). These contracts describe documented behavior, not successful live API tests.
+Source: overview, generation, and statement documentation supplied by the user on 2026-10-29 (Asia/Jakarta). These contracts describe documented behavior, not successful live API tests.
 
 ## Connect and create
 
@@ -12,7 +12,7 @@ POST `/instaqris/create` requires JSON integer `amount` in IDR, 1–10000000. Th
 
 Persist the local order/attempt, expected amount, configured account, `bill_number` and `outlet_id` as strings, returned `expires_in`, and local creation time. Check HTTP status, API success, amount, and required identifiers before exposing checkout data. Do not invent `transaction_id`, `order_sn`, `qr_string`, or `checkout_url` fields.
 
-The example uses `expires_in: 900`, and the prose describes approximately 15-minute QR validity. Use the returned duration for an approximate local countdown and distinguish local expiry from definitive provider cancellation. The QR URL can be displayed in an image or opened directly during its validity; do not append the API key. Keep the returned URL intact even if its host differs from the configured API base. An expired image is not proof that no payment occurred.
+The example uses `expires_in: 900`, and the prose describes approximately 15-minute QR validity. Use the returned duration for an approximate local countdown and distinguish local expiry from definitive provider cancellation. The QR URL can be displayed in an image or opened directly during its validity; do not append the API key. Validate the returned URL as HTTPS on a reviewed provider-host allowlist and preserve its path/query; never use a response-controlled host as a new authenticated API base. An expired image is not proof that no payment occurred.
 
 ## Retrieve incoming statements
 

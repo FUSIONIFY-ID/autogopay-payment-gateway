@@ -7,7 +7,7 @@ python scripts/validate_repo.py
 python scripts/sync_skill.py --check
 python scripts/run_evals.py
 python -m unittest discover -s tests -v
-node --test tests/node.test.mjs
+node --test tests/*.test.mjs
 php tests/php_test.php
 python scripts/package_skill.py
 ```
@@ -21,7 +21,7 @@ Python memakai standard library; Node memakai node:test dan node:crypto. PHP CLI
 | Struktur | Frontmatter, link, marketplace paths, versi, scan credential dan sinkronisasi |
 | Unit/HTTP mock | Signature, HTTP lokal, amount/ID/account mismatch, duplicate dan database rollback |
 | Race/restart | Callback dan status evidence bersamaan menghasilkan satu efek; restart mempertahankan deduplikasi |
-| Client mock | Endpoint GoPay, integer bounds, HTTP/API/JSON error, timeout tanpa retry |
+| Client mock | Endpoint GoPay/BCA, date/page input, pagination 50 item, scan tidak lengkap, batas waktu, jadwal polling bertahap, Interactive pending, serta HTTP/API/JSON error dan timeout tanpa retry |
 | Fixture evaluasi | Prompt, rubric, trigger decision dan policy anchor masih valid; bukan hasil model AI |
 | Package | ZIP berurutan dan dapat direproduksi, dengan SHA256SUMS |
 | Marketplace | Validasi schema/local installer yang benar-benar tersedia; laporkan hasil CLI secara terpisah |

@@ -1,8 +1,8 @@
 # Webhook contract and implementation
 
-Source checked 2026-10-12: https://autogopay.site/docs/webhook and https://autogopay.site/docs/authentication
+Source: documentation supplied on 2026-10-29; related public pages: https://autogopay.site/docs/webhook and https://autogopay.site/docs/authentication
 
-Cross-checked against the webhook documentation supplied by the user on 2026-10-12.
+Cross-checked against the webhook documentation supplied by the user on 2026-10-29.
 
 ## Provider contract
 
@@ -42,7 +42,7 @@ The example does not specify a timezone or establish a signature freshness windo
 | `QRIS_SHOPEEPAY` | ShopeePay |
 | `QRIS_INTERACTIVE` | Interactive |
 
-Use HTTPS in production; return HTTP 200 within 10 seconds. Deduplicate transaction IDs. GoPay/ShopeePay auto-monitor every 3 seconds for at most 15 minutes; Interactive callbacks occur on status checks. Retry delivery schedules, replay timestamp policy, and provider-specific webhook identifier mapping are not documented here.
+Use HTTPS in production; return HTTP 200 within 10 seconds. Deduplicate transaction IDs. GoPay/ShopeePay auto-monitor every 3 seconds in the first 2 minutes, every 5 seconds until minute 5, then every 10 seconds, stopping after 15 minutes; Interactive callbacks occur on status checks. Retry delivery schedules, replay timestamp policy, and provider-specific webhook identifier mapping are not documented here.
 
 ## Implementation recommendations
 
@@ -73,3 +73,7 @@ For ShopeePay and Interactive, create identifiers differ from the generic callba
 ## Content isolation
 
 The callback endpoint is an ordinary deterministic backend endpoint, not an AI tool that interprets incoming messages. Authenticate and parse bounded input in backend code. Retain only validated identifiers, integer amount, normalized status and the trusted account/provider binding for payment effects. Discard unknown properties, buyer descriptions, messages, HTML and instruction-like text from agent-facing results. Never append a raw callback to system/developer prompts or use it to choose commands. If quarantining raw data, keep access restricted and render it as escaped inert data. A signed payload can still contain untrusted text. The bundled GoPay demo passes only matched identifiers and amount to storage and returns paid/duplicate booleans; it does not forward raw JSON to a model.
+
+## Supplied Node.js sample correction
+
+The October 29 provider sample signs `JSON.stringify(req.body)` after parsing, compares plain strings, and treats every non-GoPay payment method as ShopeePay. Do not copy those shortcuts. The documented contract signs raw bytes: parser normalization can change whitespace, Unicode escapes and key order. Use the raw-body constant-time helper above, explicit QRIS/QRIS_SHOPEEPAY/QRIS_INTERACTIVE dispatch, and reject unknown methods. An example is not an exception to the signature contract. BCA Merchant has no documented webhook.

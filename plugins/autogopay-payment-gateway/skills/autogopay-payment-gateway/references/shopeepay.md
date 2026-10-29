@@ -1,6 +1,6 @@
 # ShopeePay integration
 
-Source: overview, connection status, transactions, QRIS creation, QRIS status, and bot example supplied by the user on 2026-10-12 (Asia/Jakarta). These are documented contracts, not successful live API tests.
+Source: overview, connection status, transactions, QRIS creation, QRIS status, and bot example supplied by the user on 2026-10-29 (Asia/Jakarta). These are documented contracts, not successful live API tests.
 
 ## Configure and check readiness
 
@@ -37,7 +37,7 @@ Only accept consistent paid indicators, the expected order SN and integer amount
 
 ## Webhook and bot workflow
 
-Provider auto-polling checks every 3 seconds and delivers incoming-payment callbacks. Configure the callback in the dashboard and follow `webhooks.md`; ShopeePay method is `QRIS_SHOPEEPAY`. The generic webhook example does not prove how its IDs map to `order_sn`. Validate that mapping or use an authenticated status check for a persisted order; preserve unmatched signed receipts without crediting them.
+Provider auto-polling checks every 3 seconds during the first 2 minutes, every 5 seconds until minute 5, then every 10 seconds until the 15-minute deadline, and delivers incoming-payment callbacks. Configure the callback in the dashboard and follow `webhooks.md`; ShopeePay method is `QRIS_SHOPEEPAY`. The generic webhook example does not prove how its IDs map to `order_sn`. Validate that mapping or use an authenticated status check for a persisted order; preserve unmatched signed receipts without crediting them.
 
 Use webhook confirmation as the primary integration when available. The supplied bot example provides optional polling every 5 seconds for 15 minutes (180 attempts). Implement durable bounded polling as a background worker, with HTTP timeouts and an elapsed-time deadline; request duration means 180 attempts need not equal precisely 15 minutes. Stop polling on verified payment or deadline. A polling timeout is not proof the provider transaction is cancelled or never paid; allow reconciliation of late evidence.
 
@@ -49,7 +49,7 @@ For Node.js use server-side fetch with AbortSignal, check HTTP status before tru
 4. Stop polling after payment; make bot notifications idempotent where possible.
 5. Restart workers from persisted pending attempts after process restarts. Do not rely on in-memory loops as the only payment record.
 
-The provider's bot sample uses `https://api.autogopay.site`, while its cURL examples and main docs use `https://v1-gateway.autogopay.site`. Prefer the canonical configured base. Keep returned QR URLs intact even when their host differs. Do not infer that a response host is a valid alternative authenticated API base.
+The October 29 bot sample now uses the canonical `https://v1-gateway.autogopay.site`. Older samples used a different host. Do not infer that any returned QR image host is a valid authenticated API base. Validate image/checkout URLs against a reviewed HTTPS provider-host allowlist without attaching the API key.
 
 ## Verification cases
 

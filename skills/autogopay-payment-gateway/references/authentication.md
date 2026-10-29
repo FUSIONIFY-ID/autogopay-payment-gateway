@@ -1,6 +1,6 @@
 # Authentication and setup
 
-Source: authentication and webhook documentation supplied by the user on 2026-10-12 (Asia/Jakarta). Canonical API base: `https://v1-gateway.autogopay.site`.
+Source: authentication and webhook documentation supplied by the user on 2026-10-29 (Asia/Jakarta). Canonical API base: `https://v1-gateway.autogopay.site`.
 
 ## Configure the application
 

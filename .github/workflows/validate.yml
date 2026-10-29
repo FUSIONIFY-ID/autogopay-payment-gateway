@@ -26,14 +26,14 @@ jobs:
       - run: python scripts/sync_skill.py --check
       - run: python scripts/run_evals.py
       - run: python -m unittest discover -s tests -v
-      - run: node --test tests/node.test.mjs
+      - run: node --test tests/*.test.mjs
       - run: node --test vscode-extension/test/*.test.js
       - name: Verify PHP signature helper
         run: php tests/php_test.php
       - run: python scripts/package_skill.py
       - name: Package VS Code extension
         working-directory: vscode-extension
-        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.3.1.vsix
+        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.4.0.vsix
       - uses: actions/upload-artifact@v4
         with:
           name: autogopay-validated-packages

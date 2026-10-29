@@ -1,6 +1,6 @@
 ---
 name: autogopay-payment-gateway
-description: Integrate and debug AutoGoPay payment APIs in backend applications, web checkouts, and Telegram or WhatsApp bots. Use for AutoGoPay QRIS generation, payment status, GoPay, ShopeePay, QRIS Interactive, InstaQRIS reconciliation, OVO operations, and HMAC-verified idempotent webhooks.
+description: Integrate and debug AutoGoPay payment APIs in backend applications, web checkouts, and Telegram or WhatsApp bots. Use for AutoGoPay QRIS generation, payment status, GoPay, ShopeePay, QRIS Interactive, InstaQRIS and BCA Merchant reconciliation, OVO operations, and HMAC-verified idempotent webhooks.
 ---
 
 # AutoGoPay Payment Gateway
@@ -31,6 +31,8 @@ If this is a chat-only environment without project files or editing tools, suppl
 | ShopeePay checkout or payment bot | [ShopeePay](references/shopeepay.md) |
 | Interactive checkout and polling | [Interactive](references/interactive.md) |
 | InstaQRIS checkout and reconciliation | [InstaQRIS](references/instaqris.md) |
+| BCA Merchant QRIS and paginated statement reconciliation | [BCA Merchant](references/bca.md) |
+| Updated contracts, source inconsistencies and migration checks | [Release compatibility](references/updates.md) |
 | OVO QRIS payment or outgoing transfers | [OVO](references/ovo.md) |
 | Runnable mock checkout, SQLite receipts, Node.js and PHP helpers | [Examples](references/examples.md) |
 
@@ -73,11 +75,15 @@ Do not activate for unrelated frontend styling, another payment provider without
 - Normalize status in the provider adapter. Do not use one provider's status strings for another. Keep unknown statuses non-paid and observable.
 - Commit payment receipt, order transition, and an outbox/fulfillment task atomically using the project's database. Use uniqueness constraints and conditional updates so a duplicate callback or polling race cannot credit a balance or deliver an item twice.
 - Acknowledge valid duplicates successfully. Preserve a paid state against later pending/expired observations. Reconcile genuine late payments rather than discarding them merely because local expiry elapsed.
-- Use GoPay/ShopeePay callbacks as the primary path. For Interactive, implement bounded backend polling. For InstaQRIS, implement statement reconciliation only after establishing a reliable identifier relationship; never match solely by equal amounts.
+- Use GoPay/ShopeePay callbacks as the primary path. For Interactive, implement bounded backend polling. For InstaQRIS, implement statement reconciliation only after establishing a reliable identifier relationship; never match solely by equal amounts. For BCA Merchant, use paginated statements, not an invented status endpoint or webhook. Keep ambiguous amount/time matches for human reconciliation; the generated BCA transaction ID does not occur in statements.
 
 ## Outgoing OVO operations
 
 Read [OVO contracts](references/ovo.md) for history, preview/confirmation branches, and bank/OVO inquiry and execution fields. Verify live documentation when extending these contracts. Treat preview/inquiry as separate from execution. Respect the user's authorized destination and amount; use mock execution unless a live transfer is explicitly authorized. Keep PINs secret and never retry an incorrect PIN automatically. Do not describe OVO QRIS confirmation as incoming QRIS generation.
+
+## Provider update checks
+
+Read release compatibility when upgrading an existing integration. Use the October 29 supplied contract for adaptive GoPay/ShopeePay monitoring and BCA Merchant. Treat older source discrepancies as historical, preserve unresolved contracts, and do not copy unsafe sample code merely because it appears in provider documentation.
 
 ## Verify the integration
 

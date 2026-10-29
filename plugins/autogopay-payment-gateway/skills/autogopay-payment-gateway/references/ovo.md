@@ -1,6 +1,6 @@
 # OVO integration contracts
 
-Source: the user supplied the OVO overview and eight endpoint documentation pages on 2026-10-12 (Asia/Jakarta). This reference describes documented contracts, not successful live tests. Use the canonical base URL and Bearer authentication from `api-contracts.md`; POST bodies are JSON.
+Source: the user supplied the OVO overview and eight endpoint documentation pages on 2026-10-29 (Asia/Jakarta). This reference describes documented contracts, not successful live tests. Use the canonical base URL and Bearer authentication from `api-contracts.md`; POST bodies are JSON.
 
 ## Read history and banks
 

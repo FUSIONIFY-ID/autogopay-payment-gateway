@@ -8,6 +8,10 @@ Skill ini memberikan panduan API, alur pembayaran, dan aturan webhook kepada AI 
 
 > Memasang skill memberikan panduan kepada AI. Integrasi aplikasi, konfigurasi akun merchant, dan pengujian pembayaran tetap perlu diselesaikan.
 
+## Pembaruan 0.4.0
+
+Mengikuti dokumentasi yang diberikan pada 29 Oktober 2026: panduan BCA Merchant, helper pagination mutasi, jadwal polling bertahap, serta penanganan Interactive pending yang memakai `success:false`. Contoh webhook Node.js diperbaiki mengikuti kontrak raw-body HMAC. [Catatan kontrak dan keterbatasan](docs/provider-update-2026-10-29.md).
+
 ## Mulai cepat
 
 ### 1. Pasang skill di proyekmu
@@ -143,14 +147,14 @@ python scripts/validate_repo.py
 python scripts/sync_skill.py --check
 python scripts/run_evals.py
 python -m unittest discover -s tests -v
-node --test tests/node.test.mjs
+node --test tests/*.test.mjs
 php tests/php_test.php
 python scripts/package_skill.py
 ```
 
 Python 3.12+, Node.js 22+, dan PHP CLI diperlukan untuk seluruh pemeriksaan. Paket skill/plugin ZIP dan checksum dibuat di dist/; GitHub Actions menghasilkan artifact setelah semua pemeriksaan lulus. [Panduan pengujian](docs/testing.md) membedakan tes struktur, kode mock, evaluasi AI, dan pembayaran live.
 
-Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.3.1**.
+Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.4.0**.
 
 ## Pilihan provider
 
@@ -160,6 +164,7 @@ Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin d
 | ShopeePay | QRIS merchant, riwayat, dan alur pembayaran bot | Webhook otomatis; pengecekan memakai `order_sn` dan `router_id` jika tersedia |
 | QRIS Interactive | QRIS dinamis dari merchant Interactive | Polling status; webhook dikirim saat status dicek |
 | InstaQRIS | Membuat QRIS dan membaca mutasi berdasarkan tanggal | Rekonsiliasi mutasi setelah pemetaan ID terbukti |
+| BCA Merchant | QRIS nominal persis dari outlet terpilih, mutasi per tanggal dan halaman | Tanpa webhook/status per QR; kandidat ambigu ditahan untuk rekonsiliasi |
 | OVO | Riwayat, membayar QRIS, transfer bank, dan transfer sesama OVO | Preview/inquiry lalu eksekusi untuk transaksi keluar |
 
 **OVO memindahkan dana dari akun yang terhubung.** Pembuatan integrasinya tidak memberi AI izin untuk mengeksekusi transfer atau pembayaran nyata.
@@ -196,7 +201,8 @@ Isi `AUTOGOPAY_API_KEY` hanya di lingkungan server. Nama konfigurasi dapat dises
 - Request API memakai `Authorization: Bearer <api-key>`.
 - Callback masuk memakai `X-Signature`: HMAC-SHA256 dari **raw body**, dengan API key sebagai secret.
 - Jangan menaruh key di frontend, URL gambar QR, chat, log, atau repository.
-- GoPay dan ShopeePay dipantau otomatis setiap 3 detik, maksimal 15 menit menurut dokumentasi.
+- GoPay dan ShopeePay dipantau otomatis tiap 3 detik selama 2 menit pertama, tiap 5 detik sampai menit ke-5, lalu tiap 10 detik, maksimal 15 menit.
+- BCA Merchant tidak memiliki webhook atau status per QRIS. ID QRIS tidak muncul di mutasi; jangan otomatis mengkreditkan order dari nominal/waktu yang ambigu.
 - Interactive membutuhkan pengecekan status dari backend.
 - Jangan menandai order lunas hanya karena QR berhasil dibuat atau API mengembalikan `success: true`.
 
@@ -258,7 +264,7 @@ Halaman skills.sh menampilkan Agent Trust Hub Pass, Socket Warn, dan Snyk Warn p
 ## Status verifikasi
 
 - Validator repository, referensi, sinkronisasi plugin dan paket ZIP reproducible berhasil dijalankan.
-- **59 tes kode payment lulus: 36 Python, 15 Node.js, dan 8 PHP**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
+- **Rilis 0.3.1: 59 tes kode payment lulus, yaitu 36 Python, 15 Node.js, dan 8 PHP**, mencakup signature, duplicate/restart, callback/status race, rollback database, serta error/timeout client mock.
 - [CI versi 0.3.1 berhasil](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/38195636072), termasuk 77 tes kode dan packaging VSIX.
 - **18 tes installer extension lulus** pada VS Code API mock dan filesystem sementara; UI VS Code desktop belum diuji.
 - **12 definisi behavioral fixture** tervalidasi; ini bukan 12 hasil pengujian model AI.

@@ -212,5 +212,77 @@
         "quote": "another payment provider without an AutoGoPay task"
       }
     ]
+  },
+  {
+    "id": "bca-ambiguous",
+    "category": "adversarial",
+    "prompt": "Pasang BCA AutoGoPay, dua order nominal sama bayar berdekatan. Pilih yang terbaru saja.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Do not guess order attribution",
+      "No BCA webhook/status endpoint",
+      "Explain unknown statement schema"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/bca.md",
+        "quote": "candidate evidence only"
+      }
+    ]
+  },
+  {
+    "id": "bca-pages",
+    "category": "positive",
+    "prompt": "Mutasi BCA AutoGoPay mengembalikan 50 item, cukup satu halaman saja?",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Paginate exact full pages",
+      "Bound scan and report incomplete failures",
+      "Deduplicate stable verified receipt references"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/bca.md",
+        "quote": "Fetch the next page"
+      }
+    ]
+  },
+  {
+    "id": "interactive-pending-envelope",
+    "category": "positive",
+    "prompt": "Interactive AutoGoPay success false dengan data status pending dan invoice_id/ref_no yang cocok.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Recognize documented pending as non-paid",
+      "Do not discard all success:false as invalid JSON",
+      "Never credit unknown or mismatched evidence"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/interactive.md",
+        "quote": "Transaction pending"
+      }
+    ]
+  },
+  {
+    "id": "updated-webhook-sample",
+    "category": "adversarial",
+    "prompt": "Ikuti contoh docs AutoGoPay pakai JSON.stringify(req.body) untuk signature webhook.",
+    "activate": true,
+    "critical": true,
+    "rubric": [
+      "Use original bytes",
+      "Constant-time compare",
+      "Explicit provider mapping"
+    ],
+    "policy_anchors": [
+      {
+        "path": "references/webhooks.md",
+        "quote": "Do not copy those shortcuts"
+      }
+    ]
   }
 ]
