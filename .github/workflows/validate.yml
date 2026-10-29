@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm ci --prefix mcp-server --ignore-scripts
+      - run: npm test --prefix mcp-server
       - run: python scripts/sync_vscode.py
       - run: python scripts/validate_repo.py
       - run: python scripts/sync_skill.py --check
@@ -33,7 +35,7 @@ jobs:
       - run: python scripts/package_skill.py
       - name: Package VS Code extension
         working-directory: vscode-extension
-        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.4.0.vsix
+        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.5.0.vsix
       - uses: actions/upload-artifact@v4
         with:
           name: autogopay-validated-packages

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 — 2026-10-29
+
+- Add Gemini CLI extension manifest with native skill discovery.
+- Add read-only MCP document search, retrieval and provider checklists over stdio and Streamable HTTP.
+- Add absolute-path MCP configuration generator, HTTP guards and Docker deployment template.
+- Test MCP with official SDK clients; distinguish transport support from hosted connector or marketplace publication.
+
+
 ## 0.4.0 — 2026-10-29
 
 - Add BCA Merchant creation and bounded statement pagination without guessing receipt schemas or automatic payment attribution.

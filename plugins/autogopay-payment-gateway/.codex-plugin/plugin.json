@@ -1,6 +1,6 @@
 {
   "name": "autogopay-payment-gateway",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "AutoGoPay QRIS integration, verified webhooks, payment reconciliation and runnable mock examples.",
   "author": {
     "name": "FUSIONIFY-ID"

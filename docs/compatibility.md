@@ -59,3 +59,7 @@ Repository marketplace tidak berarti plugin telah diterima di direktori publik r
 - https://learn.chatgpt.com/docs/cli/reference
 - https://code.claude.com/docs/en/plugin-marketplaces
 - https://code.claude.com/docs/en/plugins-reference
+
+## Plugin dan MCP 0.5.0
+
+Lihat [matriks connector](ai-connectors.md) untuk Gemini CLI extension, Claude Desktop stdio, remote ChatGPT/Claude.ai dan generator konfigurasi. Dukungan protokol dibedakan dari publikasi marketplace dan pengujian UI host.

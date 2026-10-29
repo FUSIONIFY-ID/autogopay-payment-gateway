@@ -8,6 +8,10 @@ Skill ini memberikan panduan API, alur pembayaran, dan aturan webhook kepada AI 
 
 > Memasang skill memberikan panduan kepada AI. Integrasi aplikasi, konfigurasi akun merchant, dan pengujian pembayaran tetap perlu diselesaikan.
 
+## Plugin dan connector lintas AI
+
+Paket menyediakan katalog Claude Code/Codex, extension Gemini CLI native, serta MCP stdio dan Streamable HTTP untuk agent yang mendukungnya. Tool MCP membaca kontrak dan checklist integrasi. Connector ChatGPT/Claude.ai memerlukan deployment HTTPS dan pengaktifan di akun; belum diterbitkan sebagai app publik. [Panduan lengkap pemasangan lintas AI](docs/ai-connectors.md).
+
 ## Pembaruan 0.4.0
 
 Mengikuti dokumentasi yang diberikan pada 29 Oktober 2026: panduan BCA Merchant, helper pagination mutasi, jadwal polling bertahap, serta penanganan Interactive pending yang memakai `success:false`. Contoh webhook Node.js diperbaiki mengikuti kontrak raw-body HMAC. [Catatan kontrak dan keterbatasan](docs/provider-update-2026-10-29.md).
@@ -154,7 +158,7 @@ python scripts/package_skill.py
 
 Python 3.12+, Node.js 22+, dan PHP CLI diperlukan untuk seluruh pemeriksaan. Paket skill/plugin ZIP dan checksum dibuat di dist/; GitHub Actions menghasilkan artifact setelah semua pemeriksaan lulus. [Panduan pengujian](docs/testing.md) membedakan tes struktur, kode mock, evaluasi AI, dan pembayaran live.
 
-Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.4.0**.
+Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.5.0**.
 
 ## Pilihan provider
 

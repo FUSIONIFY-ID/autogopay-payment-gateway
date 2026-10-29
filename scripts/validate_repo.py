@@ -63,6 +63,11 @@ def validate():
             if manifest['name']!=NAME or manifest['version']!=VERSION: errors.append('Plugin version/name mismatch: '+sub)
         except (ValueError,KeyError,FileNotFoundError): errors.append('Invalid manifest: '+sub)
     if files(SKILL)!=files(ROOT/'plugins'/NAME/'skills'/NAME): errors.append('Plugin distribution is out of sync')
+    for manifest_path in ('gemini-extension.json','mcp-server/package.json'):
+        try:
+            metadata=json.loads((ROOT/manifest_path).read_text())
+            if metadata['version']!=VERSION: errors.append('Distribution version mismatch: '+manifest_path)
+        except (ValueError,KeyError,FileNotFoundError): errors.append('Invalid manifest: '+manifest_path)
     extension=ROOT/'vscode-extension'
     if extension.exists():
         try:

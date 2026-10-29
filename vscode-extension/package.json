@@ -2,7 +2,7 @@
   "name": "autogopay-payment-gateway",
   "displayName": "AutoGoPay Payment Gateway",
   "description": "Install AutoGoPay integration skills into your project and copy ready-to-use AI coding prompts.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "fusionify-id",
   "license": "UNLICENSED",
   "engines": {
