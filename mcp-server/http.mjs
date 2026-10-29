@@ -3,9 +3,9 @@ import { pathToFileURL } from 'node:url';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { createServer } from './server.mjs';
 
-export function createHttpServer({allowedHosts=['127.0.0.1','localhost'],allowedOrigins=[]}={}) {
+export function createHttpHandler({allowedHosts=['127.0.0.1','localhost'],allowedOrigins=[]}={}) {
   const hosts=new Set(allowedHosts);const origins=new Set(allowedOrigins);
-  return nodeServer(async(req,res)=>{
+  return async(req,res)=>{
     if(typeof req.headers.host!=='string' || !/^[a-z0-9.-]+(?::[0-9]{1,5})?$/i.test(req.headers.host)) {res.writeHead(403).end();return;}
     let host;
     try {host=new URL(`http://${req.headers.host}`).hostname;} catch {res.writeHead(403).end();return;}
@@ -16,8 +16,15 @@ export function createHttpServer({allowedHosts=['127.0.0.1','localhost'],allowed
     if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||'')) {res.writeHead(415).end();return;}
     let size=0;const chunks=[];
     try {
-      for await (const chunk of req) {size+=chunk.length;if(size>65536){res.writeHead(413).end();return;}chunks.push(chunk);}
-      let body;try {body=JSON.parse(Buffer.concat(chunks).toString('utf8'));} catch {res.writeHead(400).end();return;}
+      let body;
+      if(req.body!==undefined){
+        const serialized=typeof req.body==='string'?req.body:JSON.stringify(req.body);
+        if(Buffer.byteLength(serialized)>65536){res.writeHead(413).end();return;}
+        try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;}catch{res.writeHead(400).end();return;}
+      } else {
+        for await (const chunk of req) {size+=chunk.length;if(size>65536){res.writeHead(413).end();return;}chunks.push(chunk);}
+        try {body=JSON.parse(Buffer.concat(chunks).toString('utf8'));} catch {res.writeHead(400).end();return;}
+      }
       const server=createServer();const transport=new StreamableHTTPServerTransport({sessionIdGenerator:undefined,enableJsonResponse:true});
       res.on('close',()=>{void transport.close();void server.close();});
       await server.connect(transport);await transport.handleRequest(req,res,body);
@@ -25,8 +32,9 @@ export function createHttpServer({allowedHosts=['127.0.0.1','localhost'],allowed
       if(!res.headersSent)res.writeHead(500,{'content-type':'application/json'}).end('{"error":"MCP request failed"}');
       else res.end();
     }
-  });
+  };
 }
+export function createHttpServer(options) { return nodeServer(createHttpHandler(options)); }
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
   const host=process.env.HOST||'127.0.0.1';const port=Number(process.env.PORT||8787);
   if(!Number.isInteger(port)||port<1||port>65535)throw new Error('Invalid PORT');

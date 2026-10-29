@@ -1,0 +1,7 @@
+{
+  "name": "autogopay-payment-gateway-host",
+  "private": true,
+  "type": "module",
+  "version": "0.5.1",
+  "engines": { "node": "22.x" }
+}

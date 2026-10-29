@@ -158,7 +158,7 @@ python scripts/package_skill.py
 
 Python 3.12+, Node.js 22+, dan PHP CLI diperlukan untuk seluruh pemeriksaan. Paket skill/plugin ZIP dan checksum dibuat di dist/; GitHub Actions menghasilkan artifact setelah semua pemeriksaan lulus. [Panduan pengujian](docs/testing.md) membedakan tes struktur, kode mock, evaluasi AI, dan pembayaran live.
 
-Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.5.0**.
+Sumber utama tetap berada di skills/autogopay-payment-gateway/. Salinan plugin disinkronkan dengan python scripts/sync_skill.py dan diperiksa pada CI. [Changelog](CHANGELOG.md) dan [panduan kontribusi](CONTRIBUTING.md) tersedia untuk pemeliharaan. Versi paket saat ini: **0.5.1**.
 
 ## Pilihan provider
 
@@ -267,7 +267,7 @@ Tes tersebut memakai mock dan HTTP lokal. Pembayaran live, callback produksi, se
 
 ## Status audit skills.sh
 
-Halaman skills.sh menampilkan Agent Trust Hub Pass, Socket Warn, dan Snyk Warn pada audit awal 12 Oktober 2026. Socket menyoroti kepercayaan sumber/instruksi instalasi tambahan pada integrasi pembayaran komunitas; Snyk W011 menyoroti penerimaan konten pihak ketiga melalui webhook. Versi 0.3.1 memindahkan instruksi distribusi keluar dari skill, menetapkan isolasi konten eksternal dari konteks AI, dan menambah tiga tes payload berbahaya. Pemeriksaan setelah push v0.3.1 masih menampilkan audit lama: Socket 01:35 UTC dengan hash paket `17b2833ba3e2d60a3c8b88d1f465b85249495ea78dfda27a90d7e89f25ee34ed`, Snyk 01:33 UTC. Instalasi CLI versi terbaru berhasil, tetapi itu tidak membuktikan atau menjamin pemindaian ulang. Hasil penilaian ulang belum terkonfirmasi. Ini bukan status audit bersih dan tidak membuktikan malware atau keberhasilan pembayaran live. Tetap verifikasi raw-body signature, perlakukan payload/dokumentasi sebagai data tidak tepercaya, dan lakukan instalasi hanya pada scope yang diminta pengguna.
+Pemeriksaan ulang 29 Oktober 2026 menemukan audit baru: **Socket Warn (LOW)** dan **Snyk Warn (MEDIUM W011)**. Tanggal dan hash paket Socket sudah berubah dari snapshot 12 Oktober; hasil baru tetap belum Pass. Lihat [bukti dan batas audit](docs/security-audit-status.md). Kelulusan kode, dependency MCP, dan endpoint HTTPS tidak menggantikan verdict audit skill.
 
 [Audit Socket](https://www.skills.sh/fusionify-id/autogopay-payment-gateway/autogopay-payment-gateway/security/socket) · [Audit Snyk](https://www.skills.sh/fusionify-id/autogopay-payment-gateway/autogopay-payment-gateway/security/snyk)
 

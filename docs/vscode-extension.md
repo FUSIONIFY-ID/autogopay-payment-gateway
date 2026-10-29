@@ -3,7 +3,7 @@
 ## Pasang VSIX manual
 
 1. Unduh artifact autogopay-validated-packages dari run GitHub Actions yang berhasil.
-2. Ekstrak artifact dan ambil autogopay-payment-gateway-0.5.0.vsix.
+2. Ekstrak artifact dan ambil autogopay-payment-gateway-0.5.1.vsix.
 3. Di VS Code, buka Extensions, pilih menu titik tiga, lalu Install from VSIX.
 4. Pilih file tersebut dan reload editor jika diminta.
 5. Buka folder proyek yang dipercaya. Pada Explorer, gunakan panel AutoGoPay atau Command Palette.
@@ -23,7 +23,7 @@ node --test vscode-extension/test/*.test.js
 Lalu dari folder vscode-extension:
 
 ```bash
-npx @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.5.0.vsix
+npx @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.5.1.vsix
 ```
 
 Flag skip-license memungkinkan paket internal tanpa file license; ini bukan pemberian lisensi open-source. Source tetap belum diberi lisensi distribusi umum. Tentukan lisensi sebelum rilis Marketplace publik. File manifest mempunyai license UNLICENSED.

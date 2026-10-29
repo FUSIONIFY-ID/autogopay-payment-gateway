@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1 — 2026-10-29
+
+- Add a Vercel HTTPS serverless adapter with trusted deployment-host validation.
+- Handle pre-parsed JSON request bodies without losing MCP protocol messages.
+- Add an SDK round-trip test for the serverless adapter and public health endpoint.
+
+
 ## 0.5.0 — 2026-10-29
 
 - Add Gemini CLI extension manifest with native skill discovery.

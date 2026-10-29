@@ -1,10 +1,19 @@
 {
   "name": "@fusionify-id/autogopay-docs-mcp",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "type": "module",
   "description": "Read-only AutoGoPay integration contracts for MCP agents",
-  "engines": { "node": ">=22" },
-  "scripts": { "start": "node stdio.mjs", "start:http": "node http.mjs", "test": "node --test test/*.test.mjs" },
-  "dependencies": { "@modelcontextprotocol/sdk": "1.32.2", "zod": "4.6.7" }
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node stdio.mjs",
+    "start:http": "node http.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "4.6.7"
+  }
 }
