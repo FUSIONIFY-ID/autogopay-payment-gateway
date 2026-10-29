@@ -21,3 +21,13 @@ Public evidence:
 - https://www.skills.sh/fusionify-id/autogopay-payment-gateway/autogopay-payment-gateway/security/snyk
 
 No manual re-scan success or clean third-party audit is claimed. The public API documents audit retrieval, not a self-serve owner-triggered rescan operation.
+
+## 0.5.2 remediation
+
+The integration workflow no longer includes permission to install dependencies, host plugins or secondary skills. It now explicitly confines the coding agent to synthetic fixtures and typed/redacted diagnostic outputs; runtime callbacks and statement free text stay in deterministic backend processing, outside prompts, retrieval and agent tools.
+
+The Node GoPay projection authenticates original bytes, rejects duplicate JSON keys (including escaped equivalents), malformed UTF-8, excessive depth/size, invalid IDs/amounts and unsupported provider/status, then constructs a frozen minimal receipt for backend matching. The Python equivalent now has bounded parsing and the same local identifier policy. The request helper accepts only its reviewed GoPay/BCA create/history routes; direct outgoing OVO calls through that generic helper are rejected before network I/O. These are real execution constraints, not audit-label overrides.
+
+The original user-supplied API Markdown has SHA-256 `6a53c4055d8c20869aec07dbe5cd36983334d7382f12475e51b81fa86146aac4`. This identifies the contract-review input; it does not authenticate provider ownership. AutoGoPay remains a community integration with an external gateway trust dependency. A webhook-enabled payment backend still necessarily receives external data. Do not remove HMAC checks, omit webhook functionality, relabel Warn as Pass or claim provider endorsement to obtain a clean badge.
+
+A scanner reassessment of this revision is pending until the public audit metadata changes. Successful code checks do not establish that Socket/Snyk have evaluated the revised source.

@@ -7,6 +7,7 @@ Use bundled assets as small tested starting points, adapting them to the existin
 - `assets/python-demo/webhook.py`: raw-body HMAC verification and strict paid-payload validation.
 - `assets/python-demo/simulate.py`: signs and delivers a mock receipt twice to localhost; no real gateway call.
 - `assets/node/autogopay.mjs`: server-side GoPay request helper with injected fetch for tests, no retries, plus signature verification and provider-specific paid indicators.
+- `assets/node/webhook.mjs`: GoPay-only authenticated, bounded JSON projection for deterministic backend receipt handling, with unknown/free-form fields discarded.
 - `assets/node/bca.mjs`: validated BCA creation and bounded paginated statements, without automatic payment attribution.
 - `assets/node/polling.mjs`: pure adaptive schedule and Interactive status classification, with no network side effects.
 - `assets/php/verify.php`: signature helper only; integrate with the project's durable payment store and route validation.

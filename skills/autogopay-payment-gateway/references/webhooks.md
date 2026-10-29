@@ -77,3 +77,11 @@ The callback endpoint is an ordinary deterministic backend endpoint, not an AI t
 ## Supplied Node.js sample correction
 
 The October 29 provider sample signs `JSON.stringify(req.body)` after parsing, compares plain strings, and treats every non-GoPay payment method as ShopeePay. Do not copy those shortcuts. The documented contract signs raw bytes: parser normalization can change whitespace, Unicode escapes and key order. Use the raw-body constant-time helper above, explicit QRIS/QRIS_SHOPEEPAY/QRIS_INTERACTIVE dispatch, and reject unknown methods. An example is not an exception to the signature contract. BCA Merchant has no documented webhook.
+
+## Deterministic runtime handoff
+
+Use `assets/node/webhook.mjs` for the GoPay demo projection or the equivalent framework-local implementation. It authenticates original bytes, rejects malformed UTF-8/JSON, duplicate object keys, excessive body size/depth, unsupported methods/statuses and invalid amounts/identifiers, then constructs an immutable minimal receipt. It never returns buyer messages, instructions, timestamps, arbitrary extra fields or API keys. Pass the receipt only to the backend's account-bound order matching and atomic receipt/outbox transaction. An authenticated projection alone does not establish that an order has been paid.
+
+The Node and Python demo apply local policy limits of 256 KiB, depth 64 and GoPay identifiers matching `[A-Za-z0-9_-]{1,128}`. Those limits are application choices, not newly claimed provider constraints. If a verified real identifier differs, review its format and change the local policy deliberately without removing account/order matching. Signature authentication does not grant instruction authority to any field.
+
+The coding agent uses synthetic fixtures to generate and debug this code. A production callback is never delivered to the AI or to the documentation MCP. Monitoring may return typed counters, rejection codes and match outcomes; retain necessary original evidence in restricted backend storage with redaction and retention controls. Do not expose raw payloads through search, fetch, logs or model-facing tools. For ShopeePay/Interactive use separate verified identifier adapters; this GoPay-only helper must not guess their mapping.

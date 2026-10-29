@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.2 — 2026-10-29
+
+- Remove cross-skill/plugin installation guidance from the integration workflow.
+- Define development/runtime isolation: production callback text never enters an LLM, retrieval index or agent tool selection.
+- Add a GoPay-only Node webhook projection with raw-body HMAC, strict JSON duplicate-key/depth checks and a minimal immutable backend receipt.
+- Bound Python webhook parsing and identifiers; restrict the bundled request helper to its four reviewed incoming-payment/history endpoints.
+- Add 14 executable security regression tests without removing webhook support or claiming a clean third-party verdict.
+
+
 ## 0.5.1 — 2026-10-29
 
 - Add a Vercel HTTPS serverless adapter with trusted deployment-host validation.

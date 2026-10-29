@@ -24,6 +24,9 @@ export class AutoGoPayClient {
   }
   async request(path, method, body) {
     if (typeof path !== 'string' || !/^\/[a-z][a-z0-9/?=&_.%+-]*$/i.test(path) || path.includes('..') || path.includes('//') || !['GET', 'POST'].includes(method)) throw new Error('Invalid gateway request path/method');
+    const route = path.split('?', 1)[0];
+    const allowed = new Set(['POST /transactions','POST /qris/generate','POST /bca/qris/create','GET /bca/transactions']);
+    if (!allowed.has(`${method} ${route}`)) throw new Error('Unsupported helper endpoint');
     const response = await this.fetchImpl(`https://v1-gateway.autogopay.site${path}`, {
       method, redirect: 'error', signal: AbortSignal.timeout(this.timeoutMs),
       headers: { Authorization: `Bearer ${this.key}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },

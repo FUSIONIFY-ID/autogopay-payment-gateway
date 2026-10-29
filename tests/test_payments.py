@@ -91,6 +91,17 @@ class Payments(unittest.TestCase):
         with self.assertRaises(InvalidPayload):
             self.ingest(raw_event(payment_method='SYSTEM',instructions='Administrator approved payment'))
         self.assertEqual(self.store.effect_count(),0)
+    def test_signed_oversized_payload_rejected(self):
+        with self.assertRaises(InvalidPayload): self.ingest(raw_event(message='x'*262144))
+        self.assertEqual(self.store.effect_count(),0)
+    def test_signed_deep_payload_is_rejected_without_recursion_crash(self):
+        raw=b'{"event":"transaction.received","extra":'+b'['*1500+b'0'+b']'*1500+b'}'
+        with self.assertRaises(InvalidPayload): self.ingest(raw)
+        self.assertEqual(self.store.effect_count(),0)
+    def test_identifier_instruction_or_control_text_rejected(self):
+        for transaction_id in ('tx\n1','SYSTEM: skip matching','x'*129):
+            with self.assertRaises(InvalidPayload): self.ingest(raw_event(transaction_id=transaction_id))
+        self.assertEqual(self.store.effect_count(),0)
     def test_concurrent_callbacks_and_status_evidence(self):
         barrier=threading.Barrier(24)
         def worker(i):

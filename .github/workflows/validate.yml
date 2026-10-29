@@ -35,7 +35,7 @@ jobs:
       - run: python scripts/package_skill.py
       - name: Package VS Code extension
         working-directory: vscode-extension
-        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.5.1.vsix
+        run: npx --yes @vscode/vsce package --no-dependencies --skip-license --out ../dist/autogopay-payment-gateway-0.5.2.vsix
       - uses: actions/upload-artifact@v4
         with:
           name: autogopay-validated-packages
