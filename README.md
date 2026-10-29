@@ -10,7 +10,7 @@ Skill ini memberikan panduan API, alur pembayaran, dan aturan webhook kepada AI 
 
 ## Plugin dan connector lintas AI
 
-Paket menyediakan katalog Claude Code/Codex, extension Gemini CLI native, serta MCP stdio dan Streamable HTTP untuk agent yang mendukungnya. Tool MCP membaca kontrak dan checklist integrasi. Connector ChatGPT/Claude.ai memerlukan deployment HTTPS dan pengaktifan di akun; belum diterbitkan sebagai app publik. [Panduan lengkap pemasangan lintas AI](docs/ai-connectors.md).
+Paket menyediakan katalog Claude Code/Codex, extension Gemini CLI native, serta MCP stdio dan Streamable HTTP untuk agent yang mendukungnya. Tool MCP membaca kontrak dan checklist integrasi. Endpoint connector publik sudah aktif di `https://fusionify-autogopay-mcp.vercel.app/mcp` dan lulus pengujian MCP HTTPS tanpa token bypass. Tambahkan sebagai custom connector pada host yang mendukungnya; belum diterbitkan sebagai app publik. [Panduan lengkap pemasangan lintas AI](docs/ai-connectors.md).
 
 ## Pembaruan 0.4.0
 

@@ -8,8 +8,8 @@ Ada tiga cara pemasangan. Skill memberi alur kerja ke coding agent, plugin membu
 | OpenAI Codex | Marketplace repo Codex + skill; MCP stdio opsional | Katalog plugin tersedia, tanpa klaim persetujuan direktori OpenAI |
 | Gemini CLI | Extension native berisi skill + konteks; MCP stdio opsional | Manifest dan file skill diuji; sesi model Gemini belum diuji |
 | Claude Desktop | MCP stdio melalui konfigurasi lokal | Protokol diuji memakai SDK client, bukan UI desktop |
-| Claude.ai | Remote MCP Streamable HTTP | Kode transport siap; butuh deployment HTTPS dan penambahan connector di akun |
-| ChatGPT | Remote MCP / app kustom jika fitur akun mengizinkan | Butuh endpoint HTTPS yang dapat dijangkau atau mekanisme tunnel resmi; belum menjadi app publik |
+| Claude.ai | Remote MCP Streamable HTTP | Endpoint HTTPS aktif; pengguna perlu menambahkan connector di akun |
+| ChatGPT | Remote MCP / app kustom jika fitur akun mengizinkan | Endpoint HTTPS aktif; aktifkan custom MCP sesuai fitur akun; belum menjadi app publik |
 | Gemini chat | Bergantung pada kemampuan produk dan akun | Jangan menganggap extension Gemini CLI otomatis berlaku untuk aplikasi chat Gemini |
 | Cursor, VS Code, OpenCode, Qoder, Kiro dan agent lain | Skill melalui skills CLI, atau konfigurasi MCP yang didukung host | Verifikasi format konfigurasi dan transport pada versi host masing-masing |
 
@@ -55,7 +55,20 @@ Tool yang tersedia:
 
 Server juga menyediakan resource Markdown. Tool hanya membaca panduan repo, tidak memanggil API merchant, tidak menerima API key/PIN, tidak menghasilkan pembayaran, dan tidak mengeksekusi transfer. Tujuannya membantu AI memasang payment gateway ke proyek pengguna. Checkout dan webhook tetap berjalan di backend aplikasi yang dibuat agent.
 
-## ChatGPT dan Claude.ai melalui remote MCP
+## Endpoint HTTPS aktif
+
+URL connector yang sudah diverifikasi publik:
+
+```text
+https://fusionify-autogopay-mcp.vercel.app/mcp
+```
+
+[Health layanan](https://fusionify-autogopay-mcp.vercel.app/healthz) mengembalikan versi 0.5.1 dan mode public-docs-only. Tidak membutuhkan login atau API key merchant. SDK client resmi berhasil initialize, list tiga tool, mengambil checklist BCA dan panduan signature, membaca katalog 11 resource, serta menolak path file sembarang melalui endpoint HTTPS tanpa token bypass. Pengujian ini tidak memasang connector otomatis di akun ChatGPT atau Claude pengguna.
+
+Tambahkan URL tersebut sebagai custom MCP connector di host yang mendukungnya. Pilih tanpa autentikasi untuk server dokumentasi publik ini. Nama yang disarankan: AutoGoPay Payment Gateway. Mengunjungi `/mcp` dengan browser dapat menghasilkan HTTP 405 karena endpoint ini menerima request protokol MCP melalui POST; gunakan `/healthz` untuk pemeriksaan di browser.
+
+## Menjalankan deployment sendiri
+
 
 Kode HTTP dapat dijalankan lokal untuk pengujian:
 
