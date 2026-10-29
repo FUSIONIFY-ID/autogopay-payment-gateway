@@ -12,6 +12,10 @@ Skill ini memberikan panduan API, alur pembayaran, dan aturan webhook kepada AI 
 
 Paket menyediakan katalog Claude Code/Codex, extension Gemini CLI native, serta MCP stdio dan Streamable HTTP untuk agent yang mendukungnya. Tool MCP membaca kontrak dan checklist integrasi. Endpoint connector publik sudah aktif di `https://fusionify-autogopay-mcp.vercel.app/mcp` dan lulus pengujian MCP HTTPS tanpa token bypass. Tambahkan sebagai custom connector pada host yang mendukungnya; belum diterbitkan sebagai app publik. [Panduan lengkap pemasangan lintas AI](docs/ai-connectors.md).
 
+## Perbaikan keamanan 0.5.2
+
+[CI patch keamanan berhasil](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/40884598476): **125 tes kode lulus**, termasuk 14 regresi baru untuk isolasi webhook, JSON ambigu, batas payload dan pembatasan endpoint helper. Uji AI independen menjalankan 21 variasi sintetis tambahan. Endpoint MCP HTTPS sudah menyajikan versi 0.5.2. Socket/Snyk belum menampilkan penilaian terkonfirmasi untuk revisi ini; hasil audit lama tetap Warn. [Bukti kontrol dan batas audit](docs/security-audit-status.md).
+
 ## Pembaruan 0.4.0
 
 Mengikuti dokumentasi yang diberikan pada 29 Oktober 2026: panduan BCA Merchant, helper pagination mutasi, jadwal polling bertahap, serta penanganan Interactive pending yang memakai `success:false`. Contoh webhook Node.js diperbaiki mengikuti kontrak raw-body HMAC. [Catatan kontrak dan keterbatasan](docs/provider-update-2026-10-29.md).
