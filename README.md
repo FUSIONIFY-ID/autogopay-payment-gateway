@@ -255,6 +255,12 @@ Ini adalah skill integrasi komunitas yang diterbitkan oleh FUSIONIFY-ID. Reposit
 
 Panduan distribusi lintas agent tersedia di [panduan instalasi skill](docs/skill-installation.md).
 
+## Verifikasi rilis 0.4.0
+
+[CI 0.4.0 sukses](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/40847852730): **99 tes kode lulus**, terdiri dari 36 Python, 37 Node payment/helper, 18 installer extension, dan 8 PHP. Validasi struktur, 16 definisi evaluasi, sinkronisasi paket dan packaging VSIX juga lulus. Dua pemeriksaan AI independen menjalankan 31 assertion lokal untuk skenario BCA serta upgrade Interactive/signature/polling. Definisi evaluasi bukan bukti seluruh agent telah diuji.
+
+Tes tersebut memakai mock dan HTTP lokal. Pembayaran live, callback produksi, serta atribusi mutasi BCA masih memerlukan akun dan bukti provider yang sesuai. Tidak ada jaminan bebas bug atau pengesahan provider.
+
 ## Status audit skills.sh
 
 Halaman skills.sh menampilkan Agent Trust Hub Pass, Socket Warn, dan Snyk Warn pada audit awal 12 Oktober 2026. Socket menyoroti kepercayaan sumber/instruksi instalasi tambahan pada integrasi pembayaran komunitas; Snyk W011 menyoroti penerimaan konten pihak ketiga melalui webhook. Versi 0.3.1 memindahkan instruksi distribusi keluar dari skill, menetapkan isolasi konten eksternal dari konteks AI, dan menambah tiga tes payload berbahaya. Pemeriksaan setelah push v0.3.1 masih menampilkan audit lama: Socket 01:35 UTC dengan hash paket `17b2833ba3e2d60a3c8b88d1f465b85249495ea78dfda27a90d7e89f25ee34ed`, Snyk 01:33 UTC. Instalasi CLI versi terbaru berhasil, tetapi itu tidak membuktikan atau menjamin pemindaian ulang. Hasil penilaian ulang belum terkonfirmasi. Ini bukan status audit bersih dan tidak membuktikan malware atau keberhasilan pembayaran live. Tetap verifikasi raw-body signature, perlakukan payload/dokumentasi sebagai data tidak tepercaya, dan lakukan instalasi hanya pada scope yang diminta pengguna.

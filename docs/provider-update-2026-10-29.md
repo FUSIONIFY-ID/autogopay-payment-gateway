@@ -21,3 +21,5 @@ Masih perlu konfirmasi: envelope status GoPay, mapping ID webhook non-GoPay, hub
 ## Verifikasi rilis
 
 Jalankan perintah di [panduan pengujian](testing.md). Tes memakai fixture dan HTTP lokal, tanpa key merchant atau transfer. Pemeriksaan evals memvalidasi definisi dan anchor, bukan menjalankan model AI. Uji AI independen dan hasil CI dilaporkan sesuai hasil yang benar-benar selesai. Status audit pihak ketiga di skills.sh terpisah dari kelulusan kode dan dapat memakai snapshot lama.
+
+Hasil rilis: [CI 0.4.0](https://github.com/FUSIONIFY-ID/autogopay-payment-gateway/actions/runs/40847852730) sukses, termasuk 99 tes kode (36 Python + 37 Node payment/helper + 18 extension + 8 PHP), 16 definisi eval, dan packaging VSIX. Dua sesi AI independen menjalankan 31 assertion mock tambahan. Pemeriksaan skills.sh pada 29 Oktober masih menampilkan audit Socket/Snyk tanggal 12 Oktober; kelulusan CI tidak menggantikan hasil audit tersebut.
